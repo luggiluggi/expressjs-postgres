@@ -9,8 +9,9 @@
     "dev": "concurrently \"yarn dev:client\" \"yarn dev:server\" ",
     "dev:client": "cd client && yarn build -- --watch",
     "build:client": "cd client && yarn install --frozen-lockfile && yarn build",
-    "dev:server": "nodemon src/index.ts",
-    "build": "tsc",
+    "dev:server": "concurrently \"yarn build:server\" \"yarn nodemon\" ",
+    "nodemon": "nodemon dist/index.js",
+    "build:server": "tsc --watch",
     "start": "node dist/index.js"
   },
   "dependencies": {

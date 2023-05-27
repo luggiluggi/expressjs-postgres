@@ -1,26 +1,22 @@
 <script lang="ts">
   import { io, Socket } from "socket.io-client";
+  import Login from "./lib/Login.svelte";
 
-  const socket = io();
+  // const socket: Socket<server_to_client_events, client_to_server_events> = io();
 
-  socket.on("message", (msg) => {
-    console.log(msg);
-  });
+  // socket.on("message", (msg) => {
+  //   console.log(msg);
+  // });
 
-  let txt: string;
+  // let txt: string;
 
-  function handle_submission() {
-    socket.emit("message", {
-      user_name: "Emil",
-      text: txt,
-      bot: false,
-    });
-  }
+  // function handle_submission() {
+  //   socket.emit("message", {
+  //     user_name: "Emil",
+  //     text: txt,
+  //     bot: false,
+  //   });
+  // }
 </script>
 
-<h1>My First Test</h1>
-
-<form on:submit|preventDefault={handle_submission}>
-  <input type="text" bind:value={txt} />
-  <button>Send</button>
-</form>
+<Login />

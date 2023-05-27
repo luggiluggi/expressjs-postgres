@@ -26,27 +26,7 @@ const server = app.listen(port, () => {
 });
 
 //Socket.io
-type user_message = {
-  user_name: string;
-  text: string;
-  bot: false;
-}
-type bot_message = {
-  text: string;
-  bot: true;
-}
-type message = user_message | bot_message
-type client_to_server_events = {
-  message: (m: message) => void
-};
-type server_to_client_events = {
-  message: (m: message) => void
-};
-type inter_server_events = {};
-type socket_data = {};
-
 const io = new Server<client_to_server_events, server_to_client_events, inter_server_events, socket_data>(server);
-
 
 io.on("connection", (socket) => {
   console.log(`socket ${socket.id} connected`);

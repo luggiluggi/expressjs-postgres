@@ -11,5 +11,5 @@
     "forceConsistentCasingInFileNames": true,
     "removeComments": true
   },
-  "include": ["src/index.ts"]
+  "include": ["global.d.ts", "src/index.ts"]
 }
