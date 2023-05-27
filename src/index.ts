@@ -28,11 +28,48 @@ const server = app.listen(port, () => {
 //Socket.io
 const io = new Server<client_to_server_events, server_to_client_events, inter_server_events, socket_data>(server);
 
+//list of users
+
+let users: user[] = []
+
+//handle socket messages
 io.on("connection", (socket) => {
-  console.log(`socket ${socket.id} connected`);
+  socket.on("login", name => {
+    socket.data.name = name;
+ 
+    users.push({
+      name: name,
+      id: socket.id,
+    });
+    io.emit("users", users)
+
+    socket.emit("message", {
+      text: `Welcome, ${name}!`,
+      bot: true,
+    });
+
+    io.emit("message", {
+      text: `${name} entered the chat`,
+      bot: true,
+    });
+  });
+
+  
 
   // receive a message
   socket.on("message", (msg => {
+    console.log("got a new message:", msg);
     io.emit("message", msg)
-  }))
+  }));
+
+  socket.on("disconnect", () =>{
+    users = users.filter((u) => u.id !== socket.id);
+    io.emit("users", users)
+    
+    io.emit("message", {
+      text: `${socket.data.name} has left the chat`,
+      bot: true,
+    });
+  });
+
 });

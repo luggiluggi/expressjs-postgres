@@ -1,6 +1,14 @@
-<h1>My First Test</h1>
+<script lang="ts">
+    import { name } from "../stores";
+    let name_input = "";
 
-<!-- <form on:submit|preventDefault={handle_submission}>
-  <input type="text" bind:value={txt} />
-  <button>Send</button>
-</form> -->
+    function handle_login() {
+        $name = name_input;
+    }
+</script>
+
+<form on:submit|preventDefault={handle_login}>
+    <label for="name_input">Choose a name</label>
+    <input type="text" id="name_input" bind:value={name_input} required />
+    <button>Start chatting...</button>
+</form>
