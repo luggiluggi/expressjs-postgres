@@ -2,12 +2,15 @@
     import { io, Socket } from "socket.io-client";
     import Messages from "./Messages.svelte";
     import SendForm from "./SendForm.svelte";
-    import { name } from "../stores";
-    import { onMount } from "svelte";
-    import { reload_page } from "../utils";
+    import Users from "./Users.svelte";
+    import { users, show_users, name } from "../stores";
+    import { onMount, tick } from "svelte";
+    import { reload_page, scroll_to_bottom } from "../utils";
+    import Menu from "./Menu.svelte";
 
     let my_message_text = "";
     let messages: message[] = [];
+    let messages_element: HTMLElement;
 
     const socket: Socket<server_to_client_events, client_to_server_events> =
         io();
@@ -15,13 +18,15 @@
     onMount(() => {
         socket.emit("login", $name);
     });
-    socket.on("message", (msg) => {
+    socket.on("message", async (msg) => {
         messages = [...messages, msg];
+        await tick();
+        scroll_to_bottom(messages_element);
     });
 
-    socket.on("users", (users) => {
-        console.table(users)
-    })
+    socket.on("users", (_users) => {
+        $users = _users;
+    });
 
     socket.on("disconnect", reload_page);
 
@@ -35,5 +40,10 @@
     }
 </script>
 
-<Messages {messages} />
-<SendForm {send_message} bind:my_message_text />
+<Menu />
+{#if $show_users}
+    <Users />
+{:else}
+    <Messages {messages} bind:messages_element />
+    <SendForm {send_message} bind:my_message_text />
+{/if}

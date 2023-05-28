@@ -54,12 +54,10 @@ io.on("connection", (socket) => {
     });
   });
 
-  
-
   // receive a message
   socket.on("message", (msg => {
-    console.log("got a new message:", msg);
     io.emit("message", msg)
+    
   }));
 
   socket.on("disconnect", () =>{

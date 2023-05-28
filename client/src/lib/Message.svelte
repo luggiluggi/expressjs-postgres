@@ -4,7 +4,7 @@
 
 <li class:bot={message.bot}>
     {#if "user_name" in message}
-        <span>
+        <span class="user">
             {message.user_name}:
         </span>
     {/if}
@@ -12,7 +12,13 @@
 </li>
 
 <style>
+    li {
+        margin-bottom: 0.5rem;
+    }
+    .user {
+        color: var(--dark-font-color);
+    }
     .bot {
         font-weight: bold;
-    } 
+    }
 </style>

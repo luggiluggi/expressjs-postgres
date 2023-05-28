@@ -4,7 +4,30 @@
 </script>
 
 <form on:submit|preventDefault={send_message}>
-    <label for="name_input">Message</label>
-    <input type="text" id="name_input" bind:value={my_message_text} required />
+    <input
+        aria-label="your message"
+        type="text"
+        id="name_input"
+        bind:value={my_message_text}
+        required
+    />
     <button>Send message</button>
 </form>
+
+<style lang="scss">
+    @use "../scss/breakpoints" as *;
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background-color: var(--bg-color-2);
+        padding: 1rem;
+        @media (min-width: $md) {
+            flex-direction: row;
+        }
+    }
+
+    input {
+        flex-grow: 1;
+    }
+</style>
